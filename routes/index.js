@@ -8,7 +8,7 @@ const messages = [
     user: "shiv",
     added: new Date(),
     formatted_date: function () {
-      return moment(this.added).format("DD MMMM YYYY");
+      return moment(this.added).format("DD MMMM YYYY, h:mm a");
     },
   },
   {
@@ -16,7 +16,7 @@ const messages = [
     user: "george",
     added: new Date(),
     formatted_date: function () {
-      return moment(this.added).format("DD MMMM YYYY");
+      return moment(this.added).format("DD MMMM YYYY, h:mm a");
     },
   },
 ];
@@ -24,6 +24,25 @@ const messages = [
 /* GET home page. */
 router.get("/", function (req, res, next) {
   res.render("index", { title: "MIni Messageboard", messages: messages });
+});
+
+router.get("/new", function (req, res, next) {
+  res.render("form", { title: "Create message" });
+});
+
+router.post("/new", function (req, res, next) {
+  let message = req.body.message;
+  let user = req.body.user;
+  // let added = new Date();
+  messages.push({
+    text: message,
+    user: user,
+    added: new Date(),
+    formatted_date: function () {
+      return moment(this.added).format("DD MMMM YYYY, h:mm a");
+    },
+  });
+  res.redirect("/");
 });
 
 module.exports = router;
